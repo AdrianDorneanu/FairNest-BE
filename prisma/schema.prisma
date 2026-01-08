@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ExpenseType {
+  SHARED
+  PERSONAL
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  coupleId String?
+  couple   Couple? @relation(fields: [coupleId], references: [id], onDelete: SetNull)
+
+  expensesPaid Expense[] @relation("PaidBy")
+}
+
+model Couple {
+  id        String   @id @default(cuid())
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users    User[] 
+  expenses Expense[]
+}
+
+model Expense {
+  id       String @id @default(cuid())
+  coupleId String
+  couple   Couple @relation(fields: [coupleId], references: [id], onDelete: Cascade)
+
+  amount   Int
+  title    String
+  type     ExpenseType @default(SHARED)
+  date     DateTime    @default(now())
+
+  paidById String
+  paidBy   User   @relation("PaidBy", fields: [paidById], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([coupleId, date])
+  @@index([paidById])
+}
