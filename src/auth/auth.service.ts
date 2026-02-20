@@ -19,7 +19,7 @@ interface JwtPayload {
 export class AuthService {
   private readonly ACCESS_TOKEN_EXPIRY = '15m';
   private readonly REFRESH_TOKEN_EXPIRY = '7d';
-  private readonly ACCESS_TOKEN_EXPIRY_SECONDS = 900; // 15 minutes
+  private readonly ACCESS_TOKEN_EXPIRY_SECONDS = 900;
 
   constructor(
     private readonly prismaService: PrismaService,
