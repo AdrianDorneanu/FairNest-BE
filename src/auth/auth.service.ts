@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { SignupDto } from './dto/signup.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { RefreshDto } from './dto/refresh.dto';
+import { LoginDto } from './dto/login.dto';
 
 interface JwtPayload {
   sub: string;
@@ -45,6 +46,39 @@ export class AuthService {
         passwordHash,
       },
     });
+
+    const { accessToken, refreshToken } = this.generateTokens(
+      user.id,
+      user.email,
+    );
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      accessToken,
+      refreshToken,
+      expiresIn: this.ACCESS_TOKEN_EXPIRY_SECONDS,
+    };
+  }
+
+  async logIn(dto: LoginDto): Promise<AuthResponseDto> {
+    const user = await this.prismaService.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      dto.password,
+      user.passwordHash,
+    );
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
 
     const { accessToken, refreshToken } = this.generateTokens(
       user.id,
