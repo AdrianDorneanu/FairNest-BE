@@ -59,6 +59,7 @@ export class AuthService {
       accessToken,
       refreshToken,
       expiresIn: this.ACCESS_TOKEN_EXPIRY_SECONDS,
+      coupleId: user.coupleId,
     };
   }
 
@@ -92,6 +93,7 @@ export class AuthService {
       accessToken,
       refreshToken,
       expiresIn: this.ACCESS_TOKEN_EXPIRY_SECONDS,
+      coupleId: user.coupleId,
     };
   }
 
@@ -120,6 +122,7 @@ export class AuthService {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
         expiresIn: this.ACCESS_TOKEN_EXPIRY_SECONDS,
+        coupleId: user.coupleId,
       };
     } catch {
       throw new UnauthorizedException('Invalid refresh token');

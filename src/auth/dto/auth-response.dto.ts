@@ -36,4 +36,11 @@ export class AuthResponseDto {
     example: 900,
   })
   expiresIn: number;
+
+  @ApiProperty({
+    description: 'Couple ID the user belongs to (null if not in a couple)',
+    example: 'clxxxxx',
+    nullable: true,
+  })
+  coupleId: string | null;
 }

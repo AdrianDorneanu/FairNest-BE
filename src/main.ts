@@ -29,7 +29,7 @@ async function bootstrap() {
         description: 'Enter JWT token',
         in: 'header',
       },
-      'JWT-auth', // This name must match @ApiBearerAuth() decorator
+      'JWT-auth',
     )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
