@@ -45,7 +45,7 @@ export class CoupleService {
 
     const couple = await this.prismaService.couple.create({
       data: {
-        name: `${currentUser.name} & ${partner.name}`,
+        name: `${currentUser.firstName} & ${partner.firstName}`,
         users: {
           connect: [{ id: currentUserId }, { id: partner.id }],
         },
@@ -55,7 +55,8 @@ export class CoupleService {
           select: {
             id: true,
             email: true,
-            name: true,
+            firstName: true,
+            lastName: true,
           },
         },
       },
@@ -81,7 +82,8 @@ export class CoupleService {
           select: {
             id: true,
             email: true,
-            name: true,
+            firstName: true,
+            lastName: true,
           },
         },
       },

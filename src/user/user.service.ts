@@ -10,7 +10,8 @@ export class UserService {
       select: {
         id: true,
         email: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         createdAt: true,
         coupleId: true,
       },
@@ -23,7 +24,8 @@ export class UserService {
       select: {
         id: true,
         email: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         createdAt: true,
         coupleId: true,
       },

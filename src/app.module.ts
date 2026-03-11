@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { CoupleModule } from './couple/couple.module';
+import { ExpenseModule } from './expense/expense.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CoupleModule } from './couple/couple.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    ExpenseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

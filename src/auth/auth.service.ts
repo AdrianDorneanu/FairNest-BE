@@ -42,7 +42,8 @@ export class AuthService {
     const user = await this.prismaService.user.create({
       data: {
         email: dto.email,
-        name: dto.name,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
         passwordHash,
       },
     });
@@ -55,7 +56,8 @@ export class AuthService {
     return {
       id: user.id,
       email: user.email,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       accessToken,
       refreshToken,
       expiresIn: this.ACCESS_TOKEN_EXPIRY_SECONDS,
@@ -89,7 +91,8 @@ export class AuthService {
     return {
       id: user.id,
       email: user.email,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       accessToken,
       refreshToken,
       expiresIn: this.ACCESS_TOKEN_EXPIRY_SECONDS,
@@ -118,7 +121,8 @@ export class AuthService {
       return {
         id: user.id,
         email: user.email,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
         expiresIn: this.ACCESS_TOKEN_EXPIRY_SECONDS,

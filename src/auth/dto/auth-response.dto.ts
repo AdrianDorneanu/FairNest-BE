@@ -14,10 +14,16 @@ export class AuthResponseDto {
   email: string;
 
   @ApiProperty({
-    description: 'User name',
-    example: 'John Doe',
+    description: 'User first name',
+    example: 'John',
   })
-  name: string;
+  firstName: string;
+
+  @ApiProperty({
+    description: 'User last name',
+    example: 'Doe',
+  })
+  lastName: string;
 
   @ApiProperty({
     description: 'Short-lived JWT access token (expires in 15 minutes)',
