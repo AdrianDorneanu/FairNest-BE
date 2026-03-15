@@ -38,7 +38,7 @@ export class ExpenseService {
   async remove(userId: string, expenseId: string) {
     const expense = await this.prismaService.expense.findUnique({
       where: { id: expenseId },
-      select: { coupleId: true, paidById: true },
+      select: { coupleId: true },
     });
 
     if (!expense) {
