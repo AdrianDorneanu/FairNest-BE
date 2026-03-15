@@ -34,4 +34,30 @@ export class ExpenseService {
   async findAll() {
     return this.prismaService.expense.findMany();
   }
+
+  async remove(userId: string, expenseId: string) {
+    const expense = await this.prismaService.expense.findUnique({
+      where: { id: expenseId },
+      select: { coupleId: true, paidById: true },
+    });
+
+    if (!expense) {
+      throw new BadRequestException('Expense not found');
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: { coupleId: true },
+    });
+
+    if (expense.coupleId !== user?.coupleId) {
+      throw new BadRequestException(
+        'You are not allowed to delete this expense',
+      );
+    }
+
+    return this.prismaService.expense.delete({
+      where: { id: expenseId },
+    });
+  }
 }

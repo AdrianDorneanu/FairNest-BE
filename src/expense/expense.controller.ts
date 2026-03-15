@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ExpenseService } from './expense.service';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -25,5 +33,13 @@ export class ExpenseController {
   @ApiOperation({ summary: 'Get all expenses' })
   async findAll() {
     return this.expenseService.findAll();
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Delete an expense' })
+  async remove(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.expenseService.remove(user.id, id);
   }
 }
