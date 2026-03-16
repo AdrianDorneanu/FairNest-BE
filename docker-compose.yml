@@ -10,6 +10,31 @@ services:
       - db_data:/var/lib/postgresql
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- Development ---
+  api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: fairnest-api-dev
+    env_file: .env
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/fairnest"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - dev
 
 volumes:
   db_data:
