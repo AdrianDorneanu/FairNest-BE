@@ -16,11 +16,11 @@ services:
       timeout: 5s
       retries: 5
 
-  api-dev:
+  app:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: fairnest-api-dev
+    container_name: fairnest-api
     env_file: .env
     environment:
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/fairnest"
@@ -32,8 +32,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    profiles:
-      - dev
 
 volumes:
   db_data:
