@@ -24,14 +24,17 @@ services:
     env_file: .env
     environment:
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/fairnest"
+      PNPM_HOME: /pnpm-store
     ports:
       - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
+      - pnpm_store:/pnpm-store
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   db_data:
+  pnpm_store:
