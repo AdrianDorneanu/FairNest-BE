@@ -1,10 +1,47 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateExpenseDto } from './dto/createExpense.dto';
+import { ExpenseType } from 'generated/prisma/enums';
 
 @Injectable()
 export class ExpenseService {
   constructor(private readonly prismaService: PrismaService) {}
+
+  async getSummary(userId: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: { coupleId: true },
+    });
+
+    if (!user?.coupleId) {
+      throw new BadRequestException(
+        'You must be part of a couple to view expense summary',
+      );
+    }
+
+    const total = await this.prismaService.expense.aggregate({
+      where: { coupleId: user.coupleId },
+      _sum: { amount: true },
+      _count: { _all: true },
+    });
+
+    const shared = await this.prismaService.expense.aggregate({
+      where: { coupleId: user.coupleId, type: ExpenseType.SHARED },
+      _sum: { amount: true },
+    });
+
+    const personal = await this.prismaService.expense.aggregate({
+      where: { coupleId: user.coupleId, type: ExpenseType.PERSONAL },
+      _sum: { amount: true },
+    });
+
+    return {
+      totalAmount: total._sum.amount ?? 0,
+      sharedAmount: shared._sum.amount ?? 0,
+      personalAmount: personal._sum.amount ?? 0,
+      expenseCount: total._count._all ?? 0,
+    };
+  }
 
   async create(userId: string, dto: CreateExpenseDto) {
     const user = await this.prismaService.user.findUnique({

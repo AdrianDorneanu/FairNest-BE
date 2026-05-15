@@ -27,6 +27,14 @@ export class ExpenseController {
     return this.expenseService.create(user.id, dto);
   }
 
+  @Get('summary')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Get expense summary for current couple' })
+  async getSummary(@CurrentUser() user: AuthUser) {
+    return this.expenseService.getSummary(user.id);
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
