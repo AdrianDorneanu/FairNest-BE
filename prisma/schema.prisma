@@ -24,6 +24,7 @@ model User {
   email           String    @unique
   firstName       String
   lastName        String
+  gender          String
   passwordHash    String
   emailVerifiedAt DateTime?
 

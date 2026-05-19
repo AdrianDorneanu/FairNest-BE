@@ -20,6 +20,12 @@ export class SignupDto {
   lastName: string;
 
   @ApiProperty({
+    description: 'User gender',
+    example: 'male',
+  })
+  gender: string;
+
+  @ApiProperty({
     description: 'User password',
     example: 'Password123!',
   })

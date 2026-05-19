@@ -17,6 +17,7 @@ async function main() {
       email: 'adrian.dorneanu96@gmail.com',
       firstName: 'Adrian',
       lastName: 'Dorneanu',
+      gender: 'male',
       passwordHash,
     },
   });
@@ -26,6 +27,7 @@ async function main() {
       email: 'catalina.dospinescu02@gmail.com',
       firstName: 'Catalina-Elena',
       lastName: 'Dospinescu',
+      gender: 'female',
       passwordHash,
     },
   });

@@ -26,6 +26,12 @@ export class AuthResponseDto {
   lastName: string;
 
   @ApiProperty({
+    description: 'User gender',
+    example: 'male',
+  })
+  gender: string;
+
+  @ApiProperty({
     description: 'Short-lived JWT access token (expires in 15 minutes)',
     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
   })
